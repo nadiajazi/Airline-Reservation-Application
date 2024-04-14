@@ -2,12 +2,15 @@ package com.nadia.book.auth;
 
 
 import com.nadia.book.email.EmailService;
+import com.nadia.book.email.EmailTemplateName;
 import com.nadia.book.role.RoleRepository;
 import com.nadia.book.user.Token;
 import com.nadia.book.user.TokenRepository;
 import com.nadia.book.user.User;
 import com.nadia.book.user.UserRepository;
+import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +27,11 @@ public class AuthenticationService {
     private final UserRepository userRepository;
     private final TokenRepository tokenRepository;
     private final EmailService emailService;
-    public void register(RegistrationRequest request) {
+
+    @Value("${application.emailing.frontend.activation-url}")
+    private String activationUrl;
+
+    public void register(RegistrationRequest request) throws MessagingException {
         var userRole = roleRepository.findByName("USER")
                 // todo -better exception handling
                 .orElseThrow(() -> new IllegalStateException("ROLE USER was not initialized"));
@@ -42,13 +49,23 @@ public class AuthenticationService {
 
     }
 
-    private void sendValidationEmail(User user) {
+    private void sendValidationEmail(User user) throws MessagingException {
         var newToken = generateAndSaveActivationToken(user);
         //send Email
 
+        emailService.sendEmail(
+                user.getEmail(),
+                user.fullName(),
+                EmailTemplateName.ACTIVATE_ACCOUNT,
+                activationUrl,
+                 newToken,
+                "Account activation"
+
+        );
+
     }
 
-    private Object generateAndSaveActivationToken(User user) {
+    private String generateAndSaveActivationToken(User user) {
         // generate a token
         String generatedToken = generateActivationCode(6);
         var token = Token.builder()
