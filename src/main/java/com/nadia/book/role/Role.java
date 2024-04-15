@@ -22,7 +22,7 @@ import java.util.List;
 @EntityListeners(AuditingEntityListener.class)
 public class Role {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @Column(unique = true
     )

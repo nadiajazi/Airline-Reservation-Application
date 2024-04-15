@@ -1,16 +1,17 @@
 services:
   mysql:
     container_name: mysql-bsn
-    image: mysql
+    image: mysql:latest
     environment:
-      MYSQL_USER: username
-      MYSQL_PASSWORD: password
+      MYSQL_USER: testuser
+      MYSQL_ROOT_PASSWORD: root-password
+      MYSQL_PASSWORD: testpassword
+      MYSQL_DATABASE: testdatabase
       MSDATA: /var/lib/mysql/data
-      MYSQL_DB: book_social_network
     volumes:
       - mysql:/data/mysql
     ports:
-      - 3308:3308
+      - "3309:3306"
     networks:
       - spring-demo
     restart: unless-stopped

@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3308/book_social_network
-    username: username
-    password: password
+    url: jdbc:mysql://localhost:3309/testdatabase
+    username: testuser
+    password: testpassword
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
