@@ -2,6 +2,7 @@ package com.nadia.book.security;
 
 import com.nadia.book.user.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -10,10 +11,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
-@RequiredArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
 
+
     private final UserRepository repository;
+
+    public UserDetailsServiceImpl(UserRepository repository) {
+        this.repository = repository;
+    }
 
     @Override
     @Transactional
