@@ -9,6 +9,7 @@ import com.nadia.book.user.TokenRepository;
 import com.nadia.book.user.User;
 import com.nadia.book.user.UserRepository;
 import jakarta.mail.MessagingException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,6 +20,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class AuthenticationService {
 
 
@@ -31,20 +33,14 @@ public class AuthenticationService {
     @Value("${application.emailing.frontend.activation-url}")
     private String activationUrl;
 
-    public AuthenticationService(RoleRepository roleRepository, PasswordEncoder passwordEncoder, UserRepository userRepository, TokenRepository tokenRepository, EmailService emailService) {
-        this.roleRepository = roleRepository;
-        this.passwordEncoder = passwordEncoder;
-        this.userRepository = userRepository;
-        this.tokenRepository = tokenRepository;
-        this.emailService = emailService;
-    }
+
 
     public void register(RegistrationRequest request) throws MessagingException {
         var userRole = roleRepository.findByName("USER")
                 // todo -better exception handling
                 .orElseThrow(() -> new IllegalStateException("ROLE USER was not initialized"));
         var user = User.builder()
-                .firstName(request.getFirstname())
+                .firstName(request.getFirstName())
                 .lastName(request.getLastName())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
