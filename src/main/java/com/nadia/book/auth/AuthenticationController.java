@@ -28,7 +28,8 @@ public class AuthenticationController {
     ) throws MessagingException {
 
         service.register(request);
-        return ResponseEntity.accepted().build();
+        return ResponseEntity.noContent().build();
+
     }
 
     @PostMapping("/authenticate")

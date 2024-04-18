@@ -1,0 +1,8 @@
+apis/AuthenticationApi.ts
+apis/index.ts
+index.ts
+models/AuthenticationRequest.ts
+models/AuthenticationResponse.ts
+models/RegistrationRequest.ts
+models/index.ts
+runtime.ts
