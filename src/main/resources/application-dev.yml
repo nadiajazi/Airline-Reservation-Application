@@ -39,3 +39,5 @@ application:
       activation-url: http://localhost:3000/activate-account
 server:
   port: 8088
+upload:
+  dir: ./uploads

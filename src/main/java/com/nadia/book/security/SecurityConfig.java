@@ -53,8 +53,19 @@ public class SecurityConfig {
                                         "/configuration/security",
                                         "/swagger-ui/**",
                                         "/webjars/**",
-                                        "/swagger-ui.html"
+                                        "/swagger-ui.html",
+                                        "/api/v1/api/flights/**",
+                                        "api/v1/api/reservations/**",
+                                        "/api/v1/api/hotels",
+                                         "/api/hotel-reservations"
+
                                 ).permitAll()
+                                .requestMatchers(
+                                        "/api/v1/api/flights",
+                                          "/api/v1/api/reservations",
+                                         "/api/v1/api/hotels",
+                                           "/api/hotel-reservations"
+                                ).authenticated()
                                 .anyRequest()
                                 .authenticated()
                 )
